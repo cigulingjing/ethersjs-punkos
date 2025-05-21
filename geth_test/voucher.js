@@ -7,7 +7,6 @@ module.exports = {
     addVoucherName,
     getVoucherInfo,
     balanceOf,
-    testVoucher,
     getAllVouchers,
 };
 
@@ -71,7 +70,6 @@ async function addVoucherName(tx, voucherName) {
 // Send the transaction to geth and pay for the gas with voucher
 async function sendTransactionWithVoucher(tx,voucherName) {
     try {
-
         addVoucherName(tx,voucherName)
         // Sign tx, signed tx will be rlp coding
         const signedTx = await wallet.signTransaction(tx);
@@ -130,16 +128,5 @@ async function getAllVouchers(){
         console.error("get all voucher failed:");
         throw error;
     }
-}
-
-async function testVoucher() {
-    // Test upload algorithm 
-    await createVoucher("BitCoin", 100);
-    await buy("BitCoin", ethers.utils.parseUnits("1", 18));
-    let balance=await balanceOf("BitCoin",wallet.address);
-    console.log(getAllVouchers())
-    console.log(balance);
-    tx=await newDynamicFeeTx();
-    sendTransactionWithVoucher(tx,"BitCoin");
 }
 
